@@ -1,21 +1,17 @@
-# Use Node to build and serve the React app
 FROM node:18
 
+# Set working directory
 WORKDIR /app
 
-# Copy project files
+# Install dependencies
 COPY package*.json ./
-COPY tsconfig*.json ./
-COPY vite.config.* ./
-# COPY .env.production .env.production
-
 RUN npm install
 
+# Copy rest of the app
 COPY . .
 
-# Build the React app
-RUN npm run build
+# Expose Vite dev server port
+EXPOSE 5173
 
-# Expose port and use Vite's built-in preview server
-EXPOSE 4173
-CMD ["npm", "run", "preview"]
+# Start Vite dev server (with host 0.0.0.0 to allow external access)
+CMD ["npm", "run", "dev"]

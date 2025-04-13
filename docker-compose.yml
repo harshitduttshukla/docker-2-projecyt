@@ -6,20 +6,27 @@ services:
       context: ./brainly-fronted
       dockerfile: Dockerfile
     ports:
-      - "4173:4173"
+      - "5173:5173"
     depends_on:
       - backend
+    volumes:
+      - ./brainly-fronted:/app
+      - /app/node_modules
+    command: npm run dev  # ensure Vite runs in dev mode
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "3000:3000"
     depends_on:
       - mongo
     environment:
       - MONGODB_URI=mongodb://mongo:27017/mydb
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
 
   mongo:
     image: mongo:6
